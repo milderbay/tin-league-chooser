@@ -1,14 +1,14 @@
 var extend = require('node.extend');
 
-var commonConfig = {};
+var commonConfig = {
+  database: 'tin_league_database.db'
+};
 
 var developmentConfig = {
-  // Nothing specific yet
   corsUrls: ['http://localhost:5000']
 };
 
 var productionConfig = {
-  // Nothing specific yet
   corsUrls: ['http://tlc.milderbay.com']
 };
 

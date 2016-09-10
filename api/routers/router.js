@@ -42,7 +42,7 @@ app.get('/', function(req, res) {
   res.send("<p>Root of the Tin League Chooser API</p>");
 });
 
-// app.use('/lightning', require('./lightning'));
+app.use('/players', require('./players'));
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
                                 Export

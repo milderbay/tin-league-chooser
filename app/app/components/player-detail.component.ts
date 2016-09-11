@@ -10,9 +10,12 @@ import { Player } from '../classes/player'
   styleUrls: ['app/components/player-detail.component.css']
 })
 export class PlayerDetailComponent implements OnInit {
+  player: Player;
+
   constructor(
-  private playerService: PlayerService,
-  private route: ActivatedRoute) { }
+    private playerService: PlayerService,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
     this.route.params.forEach((params: Params) => {

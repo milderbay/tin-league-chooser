@@ -45,10 +45,24 @@ app.post('/', function(req, res) {
   db.serialize(function() {
     db.run("INSERT INTO players(name) VALUES($name)", {
       $name: player.name
+    }, function(err) {
+      if (err)
+        console.error(err);
+      player.id = this.lastID;
+      res.json(player);
     });
+  });
 
-    db.get("SELECT id, name FROM players WHERE name = $name;", {
-      $name: player.name
+  db.close();
+});
+
+app.get('/:player_id', function(req, res) {
+  var db = new sqlite3.Database(config.database);
+  var playerId = req.params.player_id;
+
+  db.serialize(function() {
+    db.get("SELECT id, name FROM players WHERE id = $playerId;", {
+      $playerId: playerId
     }, function(err, row) {
       if (err)
         console.error(err);
@@ -56,59 +70,54 @@ app.post('/', function(req, res) {
       res.json(row);
     });
   });
+
+  db.close();
 });
 
-/*
-app.get('/road-temp\.:ext?', fuzionUtilities.defaultParamMiddleware, function (req, res) {
+app.put('/:player_id', function(req, res) {
+  if (!req.body)
+    res.json({success: false});
 
-  var results = [];
+  var db = new sqlite3.Database(config.database);
+  var playerId = req.params.player_id;
+  var player = req.body;
 
-  pg.connect(connectionString, function(err, client, done) {
+  db.serialize(function() {
+    db.run(`
+      UPDATE players 
+        SET name = $name
+      WHERE id = $playerId;
+    `, {
+      $playerId: playerId,
+      $name: player.name
+    }, function(err) {
+      if (err)
+        res.json({message: "player update failed", err: err});
 
-    if(err) {
-      done();
-      console.log(err);
-      return res.status(500).json({ success: false, data: err});
-    }
-
-    var query = client.query(`
-      SELECT
-        'Feature' as type,
-        ST_AsGeoJSON(geom)::json as geometry,
-        row_to_json((
-          SELECT d FROM (
-            SELECT
-              colour,
-              ARRAY[minimum_value, maximum_value] as thresholdValues,
-              variable_name as variableName
-          ) d
-        )) as properties
-      FROM road_temperature_contours
-      WHERE variable_name = 'Road surface temperature'
-      ORDER BY minimum_value
-    `);
-
-    query.on('row', function(row) {
-      results.push(row);
-    });
-
-    query.on('end', function() {
-      done();
-
-      var geoJSON = fuzionUtilities.createGeoJSON(results);
-
-      if (req.params.ext == "geojson") {
-        return res.json(geoJSON);
-      } else {
-        var topology = topojson.topology({collection: geoJSON},{"property-transform":function(object){return object.properties;}});
-        return res.json(topology);
-      }
-
+      res.json({message: "player updated successfully"});
     });
   });
 
+  db.close();
 });
-*/
+
+app.delete('/:player_id', function(req, res) {
+  var db = new sqlite3.Database(config.database);
+  var playerId = req.params.player_id;
+
+  db.serialize(function() {
+    db.run("DELETE FROM players WHERE id = $playerId;", {
+      $playerId: playerId
+    }, function(err) {
+      if (err)
+        res.json({message: "player delete failed", err: err});
+
+      res.json({message: "player deleted successfully"});
+    });
+  });
+
+  db.close();
+});
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
                                 Export

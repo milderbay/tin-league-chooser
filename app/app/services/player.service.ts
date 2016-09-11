@@ -7,4 +7,9 @@ export class PlayerService {
   getPlayers(): Promise<Player[]> {
     return Promise.resolve(PLAYERS);
   }
+
+  getPlayer(id: number): Promise<Player> {
+    return this.getPlayers()
+               .then(players => players.find(player => player.id === id));
+  }
 }

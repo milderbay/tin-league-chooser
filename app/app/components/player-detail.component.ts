@@ -1,20 +1,28 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+
+import { PlayerService } from '../services/player.service';
 import { Player } from '../classes/player'
 
 @Component({
   selector: 'player-detail',
-  template: `
-    <div *ngIf="player">
-      <h2>{{player.name}} details!</h2>
-      <div><label>id: </label>{{player.id}}</div>
-      <div>
-        <label>name: </label>
-        <input [(ngModel)]="player.name" placeholder="name"/>
-      </div>
-    </div>
-  `
+  templateUrl: 'app/components/player-detail.component.html',
+  styleUrls: ['app/components/player-detail.component.css']
 })
-export class PlayerDetailComponent {
-  @Input()
-  player: Player;
+export class PlayerDetailComponent implements OnInit {
+  constructor(
+  private playerService: PlayerService,
+  private route: ActivatedRoute) { }
+
+  ngOnInit(): void {
+    this.route.params.forEach((params: Params) => {
+      let id = +params['id'];
+      this.playerService.getPlayer(id)
+        .then(player => this.player = player);
+    });
+  }
+
+  goBack(): void {
+    window.history.back();
+  }
 }

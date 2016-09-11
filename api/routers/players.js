@@ -47,7 +47,14 @@ app.post('/', function(req, res) {
       $name: player.name
     });
 
-    res.json(player);
+    db.get("SELECT id, name FROM players WHERE name = $name;", {
+      $name: player.name
+    }, function(err, row) {
+      if (err)
+        console.error(err);
+
+      res.json(row);
+    });
   });
 });
 

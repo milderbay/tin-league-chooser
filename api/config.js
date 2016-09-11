@@ -1,7 +1,7 @@
 var extend = require('node.extend');
 
 var commonConfig = {
-  database: 'tin_league_database.db'
+  database: 'tin_league_chooser.db'
 };
 
 var developmentConfig = {

@@ -5,7 +5,7 @@ app.use(compress());
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
                                Config Setup
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 var env = process.env.NODE_ENV || 'development';
 var config = require('../config.js')[env];
@@ -15,22 +15,24 @@ var config = require('../config.js')[env];
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database(config.database);
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
                                 Routes
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 app.get('/', function(req, res) {
+  var db = new sqlite3.Database(config.database);
 
   db.serialize(function() {
-    db.all('select name from players;');
+    db.all('select id, name from players;', function(err, rows) {
+      if (err)
+        console.error(err);
+
+      res.json(rows);
+    });
   });
 
   db.close();
-
-  res.send("<p>display all players...</p>");
-
 });
 
 /*

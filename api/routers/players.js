@@ -35,6 +35,22 @@ app.get('/', function(req, res) {
   db.close();
 });
 
+app.post('/', function(req, res) {
+  if (!req.body)
+    res.json({success: false});
+
+  var db = new sqlite3.Database(config.database);
+  var player = req.body;
+
+  db.serialize(function() {
+    db.run("INSERT INTO players(name) VALUES($name)", {
+      $name: player.name
+    });
+
+    res.json(player);
+  });
+});
+
 /*
 app.get('/road-temp\.:ext?', fuzionUtilities.defaultParamMiddleware, function (req, res) {
 

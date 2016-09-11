@@ -1,4 +1,14 @@
+# COMMON Ignores
+
 **/node_modules/
 **/typings/
 **/*.log
+
+# API Ignores
+
 **/*.db
+
+# APP Ignores
+
+app/**/*.js
+app/**/*.js.map

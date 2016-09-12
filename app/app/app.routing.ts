@@ -1,8 +1,9 @@
 import { ModuleWithProviders }  from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { PlayersComponent } from './components/players.component';
+import { SetPlayerComponent } from './components/set-player.component';
 import { DashboardComponent } from './components/dashboard.component';
+import { PlayersComponent } from './components/players.component';
 import { PlayerDetailComponent } from './components/player-detail.component';
 
 const appRoutes: Routes = [
@@ -11,8 +12,11 @@ const appRoutes: Routes = [
     component: PlayerDetailComponent
   },{
     path: '',
-    redirectTo: '/dashboard',
+    redirectTo: '/login',
     pathMatch: 'full'
+  },{
+    path: 'login',
+    component: SetPlayerComponent
   },{
     path: 'dashboard',
     component: DashboardComponent

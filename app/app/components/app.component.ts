@@ -1,17 +1,27 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { Player } from '../classes/player';
+import { PlayerService } from '../services/player.service';
 
 @Component({
   selector: "my-app",
-  template: `
-    <h1>{{title}}</h1>
-    <nav>
-      <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
-      <a routerLink="/players" routerLinkActive="active">Players</a>
-    </nav>
-    <router-outlet></router-outlet>
-  `,
+  templateUrl: "app/components/app.component.html",
   styleUrls: ['app/components/app.component.css']
 })
 export class AppComponent {
   title = 'Tin League Chooser';
+  currentPlayer: Player;
+
+  constructor(
+    private router: Router,
+    private playerService: PlayerService,
+  ) {
+    this.currentPlayer = this.locker.get('currentPlayer');
+  }
+
+  logout(): void {
+    console.log(this.currentPlayer);
+    //this.router.navigate(['/login']);
+  }
 }

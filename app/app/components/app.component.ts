@@ -16,11 +16,11 @@ export class AppComponent {
   constructor(
     private router: Router,
     private playerService: PlayerService
-  ) {
-  }
+  ) { }
 
   logout(): void {
-    console.log(this.currentPlayer);
-    //this.router.navigate(['/login']);
+    this.playerService.logout().then(() => {
+      this.router.navigate(['/login']);
+    });
   }
 }

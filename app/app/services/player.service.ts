@@ -8,8 +8,21 @@ import { Player } from '../classes/player';
 export class PlayerService {
   private playersURL = 'http://localhost:5050/players';
   private headers = new Headers({'Content-Type': 'application/json'});
+  public currentPlayer: Player;
   
   constructor(private http: Http) { }
+
+  setCurrentPlayer(player: Player): void {
+    this.currentPlayer = player;
+  }
+
+  logout(): Promise<void> {
+    if (this.currentPlayer) {
+      return this.delete(this.currentPlayer.id).then(() => {
+        this.currentPlayer = null;
+      });
+    }
+  }
 
   getPlayers(): Promise<Player[]> {
     return this.http.get(this.playersURL)

@@ -20,6 +20,7 @@ export class SetPlayerComponent {
   save(): void {
     this.playerService.create(this.playerName).then(
       player => {
+        this.playerService.setCurrentPlayer(player);
         this.router.navigate(['/players']);
       }
     );

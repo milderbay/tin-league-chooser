@@ -14,7 +14,7 @@ export class SetPlayerComponent {
 
   constructor(
     private router: Router,
-    private playerService: PlayerService,
+    private playerService: PlayerService
   ) { }
 
   save(): void {

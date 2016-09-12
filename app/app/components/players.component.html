@@ -1,9 +1,17 @@
 <h2>All Players</h2>
+<div>
+  <label>Player name:</label> <input #playerName />
+  <button (click)="add(playerName.value); playerName.value=''">
+    Add
+  </button>
+</div>
 <ul class="players">
-  <li *ngFor="let player of players"
-    [class.selected]="player===selectedPlayer"
-    (click)="onSelect(player)">
-    <span class="badge">{{player.id}}</span> {{player.name}}
+  <li *ngFor="let player of players" (click)="onSelect(player)"
+      [class.selected]="player === selectedPlayer">
+    <span class="badge">{{player.id}}</span>
+    <span>{{player.name}}</span>
+    <button class="delete"
+      (click)="delete(player); $event.stopPropagation()">x</button>
   </li>
 </ul>
 <div *ngIf="selectedPlayer">

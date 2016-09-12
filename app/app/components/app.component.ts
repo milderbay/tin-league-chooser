@@ -17,7 +17,6 @@ export class AppComponent {
     private router: Router,
     private playerService: PlayerService,
   ) {
-    this.currentPlayer = this.locker.get('currentPlayer');
   }
 
   logout(): void {

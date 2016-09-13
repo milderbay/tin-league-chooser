@@ -44,6 +44,8 @@ app.get('/', function(req, res) {
 
 app.use('/players', require('./players'));
 
+app.use('/games', require('./games'));
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
                                 Export
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

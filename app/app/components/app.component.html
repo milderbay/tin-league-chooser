@@ -1,7 +1,7 @@
 <h1>{{title}}</h1>
 <nav>
   <a *ngIf="!playerService.currentPlayer" routerLink="/login" routerLinkActive="active">Log In</a>
-  <a *ngIf="playerService.currentPlayer" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+  <a *ngIf="playerService.currentPlayer" routerLink="/games" routerLinkActive="active">Games</a>
   <a *ngIf="playerService.currentPlayer" routerLink="/players" routerLinkActive="active">Players</a>
   <a *ngIf="playerService.currentPlayer" (click)="logout()">Log out</a>
 </nav>

@@ -1,8 +1,26 @@
 import { Component } from '@angular/core';
-import '../../../public/css/styles.css';
+import { Router } from '@angular/router';
+
+import { Player } from '../classes/player';
+import { PlayerService } from '../services/player.service';
+
 @Component({
-  selector: 'my-app',
-  templateUrl: './app.component.html',
+  selector: "my-app",
+  templateUrl: "./app.component.html",
   styleUrls: ['./app.component.css']
 })
-export class AppComponent { }
+export class AppComponent {
+  title = 'Tin League Chooser';
+  currentPlayer: Player;
+
+  constructor(
+    private router: Router,
+    private playerService: PlayerService
+  ) { }
+
+  logout(): void {
+    this.playerService.logout().then(() => {
+      this.router.navigate(['/login']);
+    });
+  }
+}
